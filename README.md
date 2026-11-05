@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Tower of Hanoi
 
 A responsive Tower of Hanoi puzzle that fetches the optimal solution from an Express API and plays it with animated disks and synthesized Web Audio effects.
@@ -71,3 +72,7 @@ The response has the same `disks`, `totalMoves`, and `moves` shape as the GET en
 Use **Play yourself** to move the top disk by dragging it, or tap a disk and then a destination peg. Illegal moves are rejected. **Hint** highlights the next shortest-path move. **Auto solve** requests a shortest path from the current board state; pause, resume, and step controls let you control the animation. Reset cancels playback and restores the initial peg state. The timer, optimal move count, and star rating track your run. **Beat the par** adds a time target based on the optimal move count.
 
 The audio module lazily creates its `AudioContext` after a user gesture. It synthesizes pickup tones, filtered-noise slides, disk-size-dependent landing notes, and a victory arpeggio; a gain node provides a low master volume and the mute toggle silences it.
+=======
+# Tower-of-Hanoi
+Tower of hanoi
+>>>>>>> e3ccd93ba97afe65d8fbca982b284182f48d5e35
