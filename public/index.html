@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7fb">
+    <meta name="description" content="Watch the classic Tower of Hanoi puzzle solve itself.">
+    <title>Tower of Hanoi — a little logic in motion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Tower of Hanoi home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>HANOI<span class="brand-period">.</span></span>
+        </a>
+        <span class="topbar-note"><span class="status-dot" aria-hidden="true"></span> A classic, in motion</span>
+      </header>
+
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">THE RECURSION PLAYGROUND</p>
+        <h1 id="page-title">A little logic<br><span>in motion.</span></h1>
+        <p class="intro-copy">Move the whole stack, one disk at a time.<br class="desktop-break"> Watch the pattern unfold.</p>
+      </section>
+
+      <section class="game-card" aria-label="Tower of Hanoi puzzle">
+        <div class="game-toolbar">
+          <div class="puzzle-settings">
+            <label for="disk-count">DISKS</label>
+            <select id="disk-count" aria-label="Choose number of disks">
+              <option value="3">03</option>
+              <option value="4" selected>04</option>
+              <option value="5">05</option>
+              <option value="6">06</option>
+              <option value="7">07</option>
+              <option value="8">08</option>
+            </select>
+          </div>
+          <div class="move-count" aria-live="polite">
+            <span class="move-label">MOVES</span>
+            <strong id="move-count">0 <span>/ 15</span></strong>
+          </div>
+          <div class="time-count">
+            <span class="move-label">TIME</span>
+            <strong id="timer">00:00</strong>
+          </div>
+          <div class="status-wrap">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span id="status" role="status" aria-live="polite">Ready</span>
+          </div>
+        </div>
+        <div class="progress-strip">
+          <span id="optimal-count">OPTIMAL · 15</span>
+          <span id="rating" class="rating" role="img" aria-label="0 out of 3 stars">☆☆☆</span>
+        </div>
+
+        <div id="board" class="board" role="group" aria-label="Tower of Hanoi board. Select the top disk, then choose a destination peg.">
+          <div class="board-grid">
+            <div class="peg-column" data-peg="A" role="group" aria-label="Peg A">
+              <div class="peg-rod"></div>
+              <div class="disk-stack" data-stack="A"></div>
+              <div class="peg-base"></div>
+              <button class="peg-label" type="button" aria-label="Choose peg A">A</button>
+            </div>
+            <div class="peg-column" data-peg="B" role="group" aria-label="Peg B">
+              <div class="peg-rod"></div>
+              <div class="disk-stack" data-stack="B"></div>
+              <div class="peg-base"></div>
+              <button class="peg-label" type="button" aria-label="Choose peg B">B</button>
+            </div>
+            <div class="peg-column" data-peg="C" role="group" aria-label="Peg C">
+              <div class="peg-rod"></div>
+              <div class="disk-stack" data-stack="C"></div>
+              <div class="peg-base"></div>
+              <button class="peg-label" type="button" aria-label="Choose peg C">C</button>
+            </div>
+          </div>
+          <div id="animation-layer" class="animation-layer" aria-hidden="true"></div>
+        </div>
+
+        <div class="game-controls">
+          <div class="primary-controls">
+            <button id="mode-button" class="button button-secondary" type="button" aria-label="Play the puzzle yourself" aria-pressed="false">
+              <span class="hand-icon" aria-hidden="true">✦</span>
+              <span>Play yourself</span>
+            </button>
+            <button id="solve-button" class="button button-primary" type="button" aria-label="Automatically solve from the current position">
+              <span class="play-icon" aria-hidden="true"></span>
+              <span>Solve puzzle</span>
+            </button>
+            <button id="reset-button" class="button button-secondary" type="button" aria-label="Reset the puzzle">
+              <span class="reset-icon" aria-hidden="true">↻</span>
+              <span>Reset</span>
+            </button>
+          </div>
+          <div class="step-controls" aria-label="Solution playback controls">
+            <button id="pause-button" class="button button-secondary compact-button" type="button" aria-label="Pause solution" hidden>Pause</button>
+            <button id="resume-button" class="button button-secondary compact-button" type="button" aria-label="Resume solution" hidden>Resume</button>
+            <button id="step-back-button" class="icon-button" type="button" aria-label="Step back one move" title="Step back">←</button>
+            <button id="step-forward-button" class="icon-button" type="button" aria-label="Step forward one move" title="Step forward" disabled>→</button>
+            <button id="hint-button" class="button button-secondary compact-button" type="button" aria-label="Show a hint" disabled>Hint</button>
+            <button id="challenge-button" class="button button-secondary compact-button" type="button" aria-label="Enable beat the par challenge" aria-pressed="false">
+              <span class="challenge-icon" aria-hidden="true">◷</span>
+              <span>Beat the par</span>
+            </button>
+          </div>
+          <div class="secondary-controls">
+            <label class="speed-control" for="speed">
+              <span>SPEED</span>
+              <input id="speed" type="range" min="1" max="5" value="3" aria-label="Animation speed">
+              <span class="speed-fast" aria-hidden="true">FAST</span>
+            </label>
+            <button id="mute-button" class="mute-button" type="button" aria-label="Mute sounds" aria-pressed="false">
+              <span id="mute-icon" aria-hidden="true">♫</span>
+              <span id="mute-label">Sound on</span>
+            </button>
+          </div>
+        </div>
+      </section>
+      <p id="hint-message" class="hint-message" role="status" aria-live="polite"></p>
+      <p id="error-message" class="error-message" role="alert" hidden></p>
+
+      <footer class="footer">
+        <span>THE FEWEST MOVES ALWAYS WINS.</span>
+        <span>2<sup>n</sup> − 1 <span class="footer-divider">/</span> ALWAYS</span>
+      </footer>
+    </main>
+  </body>
+</html>
